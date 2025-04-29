@@ -11,6 +11,8 @@ import SwiftData
 struct ContentView: View {
     @State private var showNewTask = false
     @Query var toDos: [ToDoItem]
+    @Environment(\.modelContext) var modelContext
+    
     var body: some View {
         VStack {
             HStack {
@@ -38,13 +40,19 @@ struct ContentView: View {
                         Text(ToDoItem.title)
 
                     }
-                    
                 }
+                .onDelete(perform: deleteToDo)
             }
             .listStyle(.plain)
         }
         if showNewTask {
             NewToDoView (showNewTask: $showNewTask, ToDoItem:ToDoItem(title:"",isImportant:false))
+        }
+    }
+    func deleteToDo (at offsets: IndexSet) {
+        for offset in offsets {
+            let ToDoItem = toDos [offset]
+            modelContext.delete(ToDoItem)
         }
     }
 }
