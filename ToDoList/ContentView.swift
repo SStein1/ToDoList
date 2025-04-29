@@ -32,17 +32,24 @@ struct ContentView: View {
             Spacer ()
             List {
                 ForEach (toDos) { ToDoItem in
-                    Text(ToDoItem.title)
+                    if ToDoItem.isImportant {
+                        Text ("‼️" + ToDoItem.title)
+                    } else {
+                        Text(ToDoItem.title)
+
+                    }
                     
                 }
             }
+            .listStyle(.plain)
         }
         if showNewTask {
-            NewToDoView ()
+            NewToDoView (showNewTask: $showNewTask, ToDoItem:ToDoItem(title:"",isImportant:false))
         }
     }
 }
 
 #Preview {
     ContentView()
+        .modelContainer(for:ToDoItem.self)
 }
