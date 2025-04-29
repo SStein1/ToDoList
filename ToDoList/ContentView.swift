@@ -18,7 +18,9 @@ struct ContentView: View {
                     .fontWeight(.black)
                 Spacer ()
                 Button {
-                    showNewTask = true
+                    withAnimation {
+                        showNewTask = true
+                    }
                 } label: {
                     Text ("+")
                         .font (.title)
